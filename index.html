@@ -7,18 +7,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     pre {
       white-space: pre-wrap;
+      background: silver;
+    }
+
+    body {
+      max-width: 768px;
+      margin: 0 auto;
+    }
+
+    fieldset,
+    div {
+      display: flex;
+      justify-content: center;
+    }
+
+    textarea {
+      resize: none;
+      display: block;
+      width: 100%;
+    }
+
+    button {
+      width: 20vmin;
+      height: 10vmin;
+      margin: 5vmin;
     }
   </style>
 </head>
 
 <body>
-  <textarea name="" id="text" cols="30" rows="10"></textarea>
-  <button id="button" type="button">format</button>
+  <fieldset>
+    <legend>input</legend>
+    <textarea name="" id="text" cols="30" rows="10"></textarea>
+  </fieldset>
 
-  <pre id="output">
-  </pre>
+  <div>
+    <button id="button" type="button">format</button>
+  </div>
+
+  <fieldset>
+    <legend>output</legend>
+    <!-- <pre id="output"></pre> -->
+    <textarea name="" id="output" cols="30" rows="10"></textarea>
+  </fieldset>
 
   <script>
 
@@ -36,7 +73,7 @@
       const valueArray = value.split('\n').filter((x, i) => i !== 0);
       const object = valueArray.map((x, i) => createObjectFromTwoArrays(keyArray, x.split('\t')));
       console.log(object);
-      document.getElementById("output").innerText = JSON.stringify(object);
+      document.getElementById("output").value = JSON.stringify(object);
     });
   </script>
 </body>
