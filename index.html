@@ -13,21 +13,21 @@
   <button id="button" type="button">format</button>
 
   <script>
+
+    const createObjectFromTwoArrays = (keyArray, valueArray) => {
+      const object = {};
+      for (let i = 0; i < keyArray.length; i++) {
+        object[keyArray[i]] = valueArray[i];
+      }
+      return object;
+    };
+
     document.getElementById("button").addEventListener('click', (e) => {
       const value = document.getElementById("text").value;
-      console.log(value.split('\n')[0].split('\t'));
-      const data = value.split('\n').filter((x, i) => i !== 0);
-      const object = data.map((x, i) => {
-        const array = x.split('\t')
-        return {
-          id: array[0],
-          name: array[1],
-          img: array[2],
-          description: array[3],
-        }
-      });
+      const keyArray = value.split('\n')[0].split('\t');
+      const valueArray = value.split('\n').filter((x, i) => i !== 0);
+      const object = valueArray.map((x, i) => createObjectFromTwoArrays(keyArray, x.split('\t')));
       console.log(object);
-
     });
   </script>
 </body>
