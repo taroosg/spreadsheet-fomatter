@@ -6,11 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 
 <body>
   <textarea name="" id="text" cols="30" rows="10"></textarea>
   <button id="button" type="button">format</button>
+
+  <pre>
+    <code id="output"></code>
+  </pre>
 
   <script>
 
@@ -28,6 +37,7 @@
       const valueArray = value.split('\n').filter((x, i) => i !== 0);
       const object = valueArray.map((x, i) => createObjectFromTwoArrays(keyArray, x.split('\t')));
       console.log(object);
+      document.getElementById("output").innerText = JSON.stringify(object);
     });
   </script>
 </body>
