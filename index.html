@@ -72,14 +72,15 @@
       return object;
     };
 
-    document.getElementById("button").addEventListener('click', (e) => {
+    document.getElementById("button").addEventListener('click', () => {
       const value = document.getElementById("text").value;
       const keyArray = value.split('\n')[0].split('\t');
       const valueArray = value.split('\n').filter((x, i) => i !== 0);
-      const object = valueArray.map((x, i) => createObjectFromTwoArrays(keyArray, x.split('\t')));
+      const object = valueArray.map((x) => createObjectFromTwoArrays(keyArray, x.split('\t')));
       console.log(object);
       document.getElementById("output").value = JSON.stringify(object);
     });
+
   </script>
 </body>
 
