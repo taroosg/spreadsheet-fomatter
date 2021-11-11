@@ -16,4 +16,4 @@
 - `JSON.stringify()` されたデータが画面に表示される．
 - 表示されたデータをコピーして使用する．
 
-<video src="https://user-images.githubusercontent.com/28992410/139869950-bc5b65e9-b945-4e90-b650-7bb5f8833e9f.mp4" alt="how-to-use-image">
+<video src="https://user-images.githubusercontent.com/28992410/141250738-c5e03ce7-6668-4db4-97e9-1098e55670a8.mp4" alt="how-to-use-image">
