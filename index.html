@@ -48,23 +48,23 @@
 <body>
   <h1>spreadsheet-formatter</h1>
   <fieldset>
-    <legend>input</legend>
-    <textarea name="" id="text" cols="30" rows="10"></textarea>
+    <legend>sheet format</legend>
+    <textarea name="" id="sheet_format_text" cols="30" rows="10"></textarea>
   </fieldset>
 
   <div>
-    <button id="button" type="button">format</button>
+    <button id="button" type="button">↑ format ↓</button>
   </div>
 
   <fieldset>
-    <legend>output</legend>
+    <legend>JSON</legend>
     <!-- <pre id="output"></pre> -->
-    <textarea name="" id="output" cols="30" rows="10"></textarea>
+    <textarea name="" id="json_text" cols="30" rows="10"></textarea>
   </fieldset>
 
   <script>
 
-    const createObjectFromTwoArrays = (keyArray, valueArray) => {
+    const twoArrays2object = (keyArray, valueArray) => {
       const object = {};
       for (let i = 0; i < keyArray.length; i++) {
         object[keyArray[i]] = valueArray[i];
@@ -72,13 +72,48 @@
       return object;
     };
 
+    const sheet2json = (sheetFormatString) => {
+      const keyArray = sheetFormatString.split('\n')[0].split('\t');
+      const valueArray = sheetFormatString.split('\n').filter((x, i) => i !== 0);
+      const object = valueArray.map((x) => twoArrays2object(keyArray, x.split('\t')));
+      return JSON.stringify(object);
+    }
+
+    const json2sheet = (Json) => {
+      const data = JSON.parse(Json);
+      const keys = Object.keys(data[0]).join('\t');
+      const values = data.map((x, i) => Object.values(x).join('\t'));
+      return [keys, ...values].join('\n');
+    }
+
+    // 0:sheet2json, 1:json2sheet, -1:empty or full
+    const getStatus = (sheetValue, jsonValue) => sheetValue && !jsonValue ? 0 : !sheetValue && jsonValue ? 1 : -1;
+
     document.getElementById("button").addEventListener('click', () => {
-      const value = document.getElementById("text").value;
-      const keyArray = value.split('\n')[0].split('\t');
-      const valueArray = value.split('\n').filter((x, i) => i !== 0);
-      const object = valueArray.map((x) => createObjectFromTwoArrays(keyArray, x.split('\t')));
-      console.log(object);
-      document.getElementById("output").value = JSON.stringify(object);
+      const io = [
+        {
+          input: 'sheet_format_text',
+          output: 'json_text',
+        },
+        {
+          input: 'json_text',
+          output: 'sheet_format_text',
+        },
+      ];
+
+      const sheetValue = document.getElementById("sheet_format_text").value;
+      const jsonValue = document.getElementById("json_text").value;
+
+      const status = getStatus(sheetValue, jsonValue);
+
+      if (status >= 0) {
+        try {
+          const value = document.getElementById(io[status].input).value;
+          document.getElementById(io[status].output).value = status === 0 ? sheet2json(value) : json2sheet(value);
+        } catch (error) {
+          alert('Data format is wrong...')
+        }
+      }
     });
 
   </script>
